@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VehicleTrackingAPI.Controllers
@@ -10,6 +11,13 @@ namespace VehicleTrackingAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public ValuesController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

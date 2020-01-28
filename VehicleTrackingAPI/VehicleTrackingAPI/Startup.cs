@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using VehicleTrackingAPI.Models.AppSettingsModels;
+using VehicleTrackingAPI.Services;
+using MediatR;
 
 namespace VehicleTrackingAPI
 {
@@ -24,6 +27,14 @@ namespace VehicleTrackingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Db service configuration
+            services.Configure<VehicleTrackerDbSettings>(Configuration.GetSection(nameof(VehicleTrackerDbSettings)));
+            services.AddSingleton<IVehicleTrackerDbSettings>(sp =>sp.GetRequiredService<IOptions<VehicleTrackerDbSettings>>().Value);
+            services.AddSingleton<IVehicleRegistrationService, VehicleRegistrationService>();
+            services.AddSingleton<IVehicleTrackingService, VehicleTrackingService>();
+
+            services.AddMediatR(typeof(Startup));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

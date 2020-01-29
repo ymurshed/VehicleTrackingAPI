@@ -5,16 +5,16 @@ using VehicleTrackingAPI.Models.ResponseModels;
 
 namespace VehicleTrackingAPI.Commands
 {
-    public class CreateRegistrationCommand : IRequest<RegistrationResponse>
+    public class AddRegistrationCommand : IRequest<RegistrationResponse>
     {
         [Required]
-        [MinLength(5)]
+        [MaxLength(7)]
         public string VehicleDeviceId { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(100)]
         public string VehicleModel { get; set; }
 
-        public RegistrationModel GetRegistrationModel(CreateRegistrationCommand command)
+        public RegistrationModel GetRegistrationModel(AddRegistrationCommand command)
         {
             var model = new RegistrationModel
             {

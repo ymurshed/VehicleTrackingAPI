@@ -5,9 +5,9 @@ namespace VehicleTrackingAPI.Models.ResponseModels
     public class RegistrationResponse
     {
         public string VehicleDeviceId { get; set; }
-        public Guid RegistrationId { get; set; }
+        public string RegistrationId { get; set; }
 
-        public RegistrationResponse(string vehicleDeviceId, Guid registrationId)
+        public RegistrationResponse(string vehicleDeviceId, string registrationId)
         {
             VehicleDeviceId = vehicleDeviceId;
             RegistrationId = registrationId;

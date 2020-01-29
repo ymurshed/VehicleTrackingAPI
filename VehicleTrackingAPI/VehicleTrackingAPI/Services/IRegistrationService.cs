@@ -6,6 +6,6 @@ namespace VehicleTrackingAPI.Services
     public interface IRegistrationService
     {
         Task<RegistrationModel> Get(string deviceId);
-        bool CreateRegistrationAsync(RegistrationModel registrationModel);
+        Task AddRegistrationAsync(RegistrationModel registrationModel);
     }
 }

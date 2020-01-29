@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using VehicleTrackingAPI.Models.AppSettingsModels;
 using VehicleTrackingAPI.Models.DbModels;
+using VehicleTrackingAPI.Models.DbModels.SubModels;
 
 namespace VehicleTrackingAPI.Services
 {
@@ -18,6 +18,25 @@ namespace VehicleTrackingAPI.Services
             var database = client.GetDatabase(settings.DatabaseName);
 
             _trackingModel = database.GetCollection<TrackingModel>(settings.VehicleTrackingCollectionName);
+        }
+
+        public async Task AddTrackingAsync(TrackingModel trackingModel)
+        {
+            await _trackingModel.InsertOneAsync(trackingModel);
+        }
+
+        public async Task AddGeoPointModelAsync(string registrationId, GeoPointModel geoPointModel)
+        {
+            var model = await _trackingModel.FindAsync(item => item.Id == registrationId).Result.FirstOrDefaultAsync();
+            if (model != null)
+            {
+                model.GeoPointModels.Add(geoPointModel);
+                await _trackingModel.InsertOneAsync(model); // throw exception
+            }
+
+            //var arrayFilter = Builders<TrackingModel>.Filter.Eq("_id", registrationId);
+            //var arrayUpdate = Builders<TrackingModel>.Update.Push(e => e.GeoPointModels, geoPointModel);
+            //await _trackingModel.UpdateOneAsync(arrayFilter, arrayUpdate);
         }
     }
 }

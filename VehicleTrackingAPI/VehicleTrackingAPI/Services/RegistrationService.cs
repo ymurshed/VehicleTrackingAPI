@@ -22,10 +22,9 @@ namespace VehicleTrackingAPI.Services
             return await _registrationModel.Find(registration => registration.VehicleDeviceId == deviceId).FirstOrDefaultAsync();
         }
             
-        public bool CreateRegistrationAsync(RegistrationModel registrationModel)
+        public async Task AddRegistrationAsync(RegistrationModel registrationModel)
         {
-            var result = _registrationModel.InsertOneAsync(registrationModel);
-            return result.IsCompletedSuccessfully;
+            await _registrationModel.InsertOneAsync(registrationModel);
         }
     }
 }

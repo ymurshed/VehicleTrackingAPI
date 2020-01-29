@@ -19,7 +19,7 @@ namespace VehicleTrackingAPI.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] CreateRegistrationCommand command)
+        public async Task<IActionResult> Register([FromBody] AddRegistrationCommand command)
         {
             var result = await _mediator.Send(command);
             return CreatedAtAction("GetRegistrationResponse", new { deviceId = result.VehicleDeviceId }, result);

@@ -16,14 +16,14 @@ namespace VehicleTrackingAPI.Models.DbModels
         [BsonElement("DeviceId")]
         public string VehicleDeviceId { get; set; }
 
-        public Guid RegistrationId { get; set; }
+        public string RegistrationId { get; set; }
 
         [BsonDateTimeOptions(DateOnly = true)]
         public DateTime RegistrationDate { get; set; }
 
         public RegistrationModel()
         {
-            RegistrationId = Guid.NewGuid();
+            RegistrationId = Guid.NewGuid().ToString("D");
             RegistrationDate = DateTime.Now.Date;
         }
     }

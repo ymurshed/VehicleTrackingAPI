@@ -3,23 +3,33 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using VehicleTrackingAPI.Commands;
+using VehicleTrackingAPI.Models.DbModels;
 using VehicleTrackingAPI.Models.ResponseModels;
 using VehicleTrackingAPI.Services;
 
 namespace VehicleTrackingAPI.Handlers.CommandHandlers
 {
-    public class CreateRegistrationHandler : IRequestHandler<CreateRegistrationCommand, RegistrationResponse>
+    public class AddRegistrationHandler : IRequestHandler<AddRegistrationCommand, RegistrationResponse>
     {
-        private readonly ILogger<CreateRegistrationHandler> _logger;
+        private readonly ILogger<AddRegistrationHandler> _logger;
         private readonly IRegistrationService _registrationService;
+        private readonly ITrackingService _trackingService;
         
-        public CreateRegistrationHandler(ILogger<CreateRegistrationHandler> logger, IRegistrationService registrationService)
+        public AddRegistrationHandler(ILogger<AddRegistrationHandler> logger, 
+                                      IRegistrationService registrationService, ITrackingService trackingService)
         {
             _logger = logger;
             _registrationService = registrationService;
+            _trackingService = trackingService;
         }
 
-        public async Task<RegistrationResponse> Handle(CreateRegistrationCommand request, CancellationToken cancellationToken)
+        private async Task AddTrackingPlaceholder(string registrationId)
+        {
+            await _trackingService.AddTrackingAsync(new TrackingModel(registrationId));
+            _logger.LogInformation($"RegistrationId: {registrationId} has been synced with TrackingModel.");
+        }
+
+        public async Task<RegistrationResponse> Handle(AddRegistrationCommand request, CancellationToken cancellationToken)
         {
             var registeredVehicle = await _registrationService.Get(request.VehicleDeviceId);
             if (registeredVehicle != null)
@@ -29,10 +39,14 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
             }
 
             var registrationModel = request.GetRegistrationModel(request);
-            if (_registrationService.CreateRegistrationAsync(registrationModel))
+            await _registrationService.AddRegistrationAsync(registrationModel);
+
+            if (registrationModel.Id != null)
             {
                 _logger.LogInformation(
-                    $"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}");
+                    $"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}.");
+
+                await AddTrackingPlaceholder(registrationModel.RegistrationId);
                 return new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
             }
 

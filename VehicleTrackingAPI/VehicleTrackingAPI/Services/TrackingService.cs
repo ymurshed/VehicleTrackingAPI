@@ -27,16 +27,9 @@ namespace VehicleTrackingAPI.Services
 
         public async Task AddGeoPointModelAsync(string registrationId, GeoPointModel geoPointModel)
         {
-            var model = await _trackingModel.FindAsync(item => item.Id == registrationId).Result.FirstOrDefaultAsync();
-            if (model != null)
-            {
-                model.GeoPointModels.Add(geoPointModel);
-                await _trackingModel.InsertOneAsync(model); // throw exception
-            }
-
-            //var arrayFilter = Builders<TrackingModel>.Filter.Eq("_id", registrationId);
-            //var arrayUpdate = Builders<TrackingModel>.Update.Push(e => e.GeoPointModels, geoPointModel);
-            //await _trackingModel.UpdateOneAsync(arrayFilter, arrayUpdate);
+            var arrayFilter = Builders<TrackingModel>.Filter.Eq("_id", registrationId);
+            var arrayUpdate = Builders<TrackingModel>.Update.Push(e => e.GeoPointModels, geoPointModel);
+            await _trackingModel.UpdateOneAsync(arrayFilter, arrayUpdate);
         }
     }
 }

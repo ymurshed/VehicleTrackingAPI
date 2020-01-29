@@ -11,12 +11,19 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="Filters\" />
-    <Folder Include="Common\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SqlXml">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.SqlXml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

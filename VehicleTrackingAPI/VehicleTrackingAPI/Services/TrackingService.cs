@@ -8,16 +8,16 @@ using VehicleTrackingAPI.Models.DbModels;
 
 namespace VehicleTrackingAPI.Services
 {
-    public class VehicleTrackingService : IVehicleTrackingService
+    public class TrackingService : ITrackingService
     {
-        private readonly IMongoCollection<VehicleTrackingModel> _trackingModel;
+        private readonly IMongoCollection<TrackingModel> _trackingModel;
 
-        public VehicleTrackingService(IVehicleTrackerDbSettings settings)
+        public TrackingService(IVehicleTrackerDbSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _trackingModel = database.GetCollection<VehicleTrackingModel>(settings.VehicleTrackingCollectionName);
+            _trackingModel = database.GetCollection<TrackingModel>(settings.VehicleTrackingCollectionName);
         }
     }
 }

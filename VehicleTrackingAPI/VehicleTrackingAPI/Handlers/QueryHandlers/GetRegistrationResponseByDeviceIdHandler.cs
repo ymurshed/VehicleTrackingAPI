@@ -11,9 +11,9 @@ namespace VehicleTrackingAPI.Handlers.QueryHandlers
     public class GetRegistrationResponseByDeviceIdHandler : IRequestHandler<GetRegistrationResponseByDeviceIdQuery, RegistrationResponse>
     {
         private readonly ILogger<GetRegistrationResponseByDeviceIdHandler> _logger;
-        private readonly IVehicleRegistrationService _registrationService;
+        private readonly IRegistrationService _registrationService;
 
-        public GetRegistrationResponseByDeviceIdHandler(ILogger<GetRegistrationResponseByDeviceIdHandler> logger, IVehicleRegistrationService registrationService)
+        public GetRegistrationResponseByDeviceIdHandler(ILogger<GetRegistrationResponseByDeviceIdHandler> logger, IRegistrationService registrationService)
         {
             _logger = logger;
             _registrationService = registrationService;

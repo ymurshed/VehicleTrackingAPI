@@ -6,13 +6,14 @@ using VehicleTrackingAPI.Queries;
 
 namespace VehicleTrackingAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class VehicleRegistrationController : ControllerBase
+    public class RegistrationController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public VehicleRegistrationController(IMediator mediator)
+        public RegistrationController(IMediator mediator)
         {
             _mediator = mediator;
         }

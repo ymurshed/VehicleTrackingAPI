@@ -11,9 +11,9 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
     public class CreateRegistrationHandler : IRequestHandler<CreateRegistrationCommand, RegistrationResponse>
     {
         private readonly ILogger<CreateRegistrationHandler> _logger;
-        private readonly IVehicleRegistrationService _registrationService;
+        private readonly IRegistrationService _registrationService;
         
-        public CreateRegistrationHandler(ILogger<CreateRegistrationHandler> logger, IVehicleRegistrationService registrationService)
+        public CreateRegistrationHandler(ILogger<CreateRegistrationHandler> logger, IRegistrationService registrationService)
         {
             _logger = logger;
             _registrationService = registrationService;
@@ -28,10 +28,16 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
                 return new RegistrationResponse(registeredVehicle.VehicleDeviceId, registeredVehicle.RegistrationId);
             }
 
-            var registrationModel = request.GetVehicleRegistrationModel(request);
-            _registrationService.CreateRegistrationAsync(registrationModel);
-            _logger.LogInformation($"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}");
-            return new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
+            var registrationModel = request.GetRegistrationModel(request);
+            if (_registrationService.CreateRegistrationAsync(registrationModel))
+            {
+                _logger.LogInformation(
+                    $"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}");
+                return new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
+            }
+
+            _logger.LogError($"For VehicleDeviceId: {registrationModel.VehicleDeviceId} registration has failed!");
+            return null;
         }
     }
 }

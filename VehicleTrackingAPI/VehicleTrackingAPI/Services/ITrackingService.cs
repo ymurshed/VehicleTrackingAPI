@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VehicleTrackingAPI.Services
 {
-    public interface IVehicleTrackingService
+    public interface ITrackingService
     {
     }
 }

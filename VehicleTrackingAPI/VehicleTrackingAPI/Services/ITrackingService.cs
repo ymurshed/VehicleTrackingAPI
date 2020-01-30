@@ -7,6 +7,6 @@ namespace VehicleTrackingAPI.Services
     public interface ITrackingService
     {
         Task AddTrackingAsync(TrackingModel trackingModel);
-        Task AddGeoPointModelAsync(string registrationId, GeoPointModel geoPointModel);
+        Task AddGeoPointAsync(string registrationId, GeoPointModel geoPointModel);
     }
 }

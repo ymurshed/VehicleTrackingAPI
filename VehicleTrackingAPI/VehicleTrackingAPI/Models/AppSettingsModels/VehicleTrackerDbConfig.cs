@@ -1,6 +1,6 @@
 ﻿namespace VehicleTrackingAPI.Models.AppSettingsModels
 {
-    public class VehicleTrackerDbSettings : IVehicleTrackerDbSettings
+    public class VehicleTrackerDbConfig : IVehicleTrackerDbConfig
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }

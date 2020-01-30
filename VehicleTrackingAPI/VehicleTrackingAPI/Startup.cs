@@ -10,6 +10,7 @@ using VehicleTrackingAPI.Models.AppSettingsModels;
 using VehicleTrackingAPI.Services;
 using MediatR;
 using Microsoft.OpenApi.Models;
+using VehicleTrackingAPI.Utility;
 
 namespace VehicleTrackingAPI
 {
@@ -25,9 +26,13 @@ namespace VehicleTrackingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Db service configuration
-            services.Configure<VehicleTrackerDbSettings>(Configuration.GetSection(nameof(VehicleTrackerDbSettings)));
-            services.AddSingleton<IVehicleTrackerDbSettings>(sp =>sp.GetRequiredService<IOptions<VehicleTrackerDbSettings>>().Value);
+            // Add AppSettings config
+            services.Configure<JwtConfig>(Configuration.GetSection(nameof(JwtConfig)));
+            services.Configure<VehicleTrackerDbConfig>(Configuration.GetSection(nameof(VehicleTrackerDbConfig)));
+            services.AddSingleton<IJwtConfig>(provider => provider.GetRequiredService<IOptions<JwtConfig>>().Value);
+            services.AddSingleton<IVehicleTrackerDbConfig>(provider => provider.GetRequiredService<IOptions<VehicleTrackerDbConfig>>().Value);
+            
+            // Add Db services
             services.AddSingleton<IRegistrationService, RegistrationService>();
             services.AddSingleton<ITrackingService, TrackingService>();
 
@@ -38,7 +43,7 @@ namespace VehicleTrackingAPI
             {
                 var version = Assembly.GetEntryAssembly()?.GetName().Version.ToString();
                 options.ResolveConflictingActions(x => x.First());
-                options.SwaggerDoc(version, new OpenApiInfo {Title = Common.Constants.SwaggerTitle, Version = version});
+                options.SwaggerDoc(version, new OpenApiInfo {Title = Constants.SwaggerTitle, Version = version});
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -58,8 +63,8 @@ namespace VehicleTrackingAPI
             {
                 var version = Assembly.GetEntryAssembly()?.GetName().Version.ToString();
                 var versionName = $"/swagger/{version}/swagger.json";
-                options.SwaggerEndpoint(versionName, Common.Constants.SwaggerTitle);
-                options.DocumentTitle = Common.Constants.SwaggerTitle;
+                options.SwaggerEndpoint(versionName, Constants.SwaggerTitle);
+                options.DocumentTitle = Constants.SwaggerTitle;
             }); // specifying the Swagger JSON endpoint.
 
             app.UseMvc();

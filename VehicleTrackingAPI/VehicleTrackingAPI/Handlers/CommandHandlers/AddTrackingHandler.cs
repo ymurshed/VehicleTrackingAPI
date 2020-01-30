@@ -22,7 +22,7 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
         public async Task<Unit> Handle(AddTrackingCommand request, CancellationToken cancellationToken)
         {
             var geoPointModel = new GeoPointModel(request.Latitude, request.Longitude);
-            await _trackingService.AddGeoPointModelAsync(request.RegistrationId, geoPointModel);
+            await _trackingService.AddGeoPointAsync(request.RegistrationId, geoPointModel);
 
             _logger.LogInformation($"For RegistrationId: {request.RegistrationId} recorded Geo Position: {request.Latitude}, {request.Longitude}.");
             return Unit.Value;

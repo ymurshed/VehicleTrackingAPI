@@ -12,12 +12,12 @@ namespace VehicleTrackingAPI.Services
     {
         private readonly IMongoCollection<TrackingModel> _trackingModel;
 
-        public TrackingService(IVehicleTrackerDbSettings settings)
+        public TrackingService(IVehicleTrackerDbConfig config)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            var client = new MongoClient(config.ConnectionString);
+            var database = client.GetDatabase(config.DatabaseName);
 
-            _trackingModel = database.GetCollection<TrackingModel>(settings.VehicleTrackingCollectionName);
+            _trackingModel = database.GetCollection<TrackingModel>(config.VehicleTrackingCollectionName);
         }
 
         public async Task AddTrackingAsync(TrackingModel trackingModel)
@@ -25,7 +25,7 @@ namespace VehicleTrackingAPI.Services
             await _trackingModel.InsertOneAsync(trackingModel);
         }
 
-        public async Task AddGeoPointModelAsync(string registrationId, GeoPointModel geoPointModel)
+        public async Task AddGeoPointAsync(string registrationId, GeoPointModel geoPointModel)
         {
             var arrayFilter = Builders<TrackingModel>.Filter.Eq("_id", registrationId);
             var arrayUpdate = Builders<TrackingModel>.Update.Push(e => e.GeoPointModels, geoPointModel);

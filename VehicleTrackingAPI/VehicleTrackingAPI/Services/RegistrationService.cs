@@ -9,12 +9,12 @@ namespace VehicleTrackingAPI.Services
     {
         private readonly IMongoCollection<RegistrationModel> _registrationModel;
 
-        public RegistrationService(IVehicleTrackerDbSettings settings)
+        public RegistrationService(IVehicleTrackerDbConfig config)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            var client = new MongoClient(config.ConnectionString);
+            var database = client.GetDatabase(config.DatabaseName);
 
-            _registrationModel = database.GetCollection<RegistrationModel>(settings.VehicleRegistrationCollectionName);
+            _registrationModel = database.GetCollection<RegistrationModel>(config.VehicleRegistrationCollectionName);
         }
 
         public async Task<RegistrationModel> Get(string deviceId)

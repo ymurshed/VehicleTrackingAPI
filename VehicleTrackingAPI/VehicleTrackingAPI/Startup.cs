@@ -29,8 +29,10 @@ namespace VehicleTrackingAPI
             // Add AppSettings config
             services.Configure<JwtConfig>(Configuration.GetSection(nameof(JwtConfig)));
             services.Configure<VehicleTrackerDbConfig>(Configuration.GetSection(nameof(VehicleTrackerDbConfig)));
+            services.Configure<DummyAdminUser>(Configuration.GetSection(nameof(DummyAdminUser)));
             services.AddSingleton<IJwtConfig>(provider => provider.GetRequiredService<IOptions<JwtConfig>>().Value);
             services.AddSingleton<IVehicleTrackerDbConfig>(provider => provider.GetRequiredService<IOptions<VehicleTrackerDbConfig>>().Value);
+            services.AddSingleton<IDummyAdminUser>(provider => provider.GetRequiredService<IOptions<DummyAdminUser>>().Value);
             
             // Add Db services
             services.AddSingleton<IRegistrationService, RegistrationService>();

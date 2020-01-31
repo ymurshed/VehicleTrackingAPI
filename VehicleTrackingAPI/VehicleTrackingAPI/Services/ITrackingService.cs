@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using VehicleTrackingAPI.Models.DbModels;
-using VehicleTrackingAPI.Models.DbModels.SubModels;
 
 namespace VehicleTrackingAPI.Services
 {
     public interface ITrackingService
     {
-        Task AddTrackingAsync(TrackingModel trackingModel);
-        Task AddGeoPointAsync(string registrationId, GeoPointModel geoPointModel);
+        Task CreateTrackingHistoryAsync(TrackingHistory trackingHistory);
+        Task AddItemToTrackingHistoryAsync(string registrationId, TrackingModel trackingModel);
+        Task<TrackingModel> GetTrackingModelAsync(string registrationId);
+        Task<List<TrackingModel>> GetTrackingModelsInCertainTimeAsync(string registrationId, DateTime startTime, DateTime endTime);
     }
 }

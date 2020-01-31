@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using VehicleTrackingAPI.Commands;
-using VehicleTrackingAPI.Models.DbModels.SubModels;
+using VehicleTrackingAPI.Models.DbModels;
 using VehicleTrackingAPI.Services;
 
 namespace VehicleTrackingAPI.Handlers.CommandHandlers
@@ -21,8 +21,8 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
 
         public async Task<Unit> Handle(AddTrackingCommand request, CancellationToken cancellationToken)
         {
-            var geoPointModel = new GeoPointModel(request.Latitude, request.Longitude);
-            await _trackingService.AddGeoPointAsync(request.RegistrationId, geoPointModel);
+            var geoPointModel = new TrackingModel(request.Latitude, request.Longitude);
+            await _trackingService.AddItemToTrackingHistoryAsync(request.RegistrationId, geoPointModel);
 
             _logger.LogInformation($"For RegistrationId: {request.RegistrationId} recorded Geo Position: {request.Latitude}, {request.Longitude}.");
             return Unit.Value;

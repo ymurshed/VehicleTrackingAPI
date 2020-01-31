@@ -23,10 +23,10 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
             _trackingService = trackingService;
         }
 
-        private async Task AddTrackingPlaceholder(string registrationId)
+        private async Task CreateTrackingHistoryPlaceholder(string registrationId)
         {
-            await _trackingService.AddTrackingAsync(new TrackingModel(registrationId));
-            _logger.LogInformation($"RegistrationId: {registrationId} has been synced with TrackingModel.");
+            await _trackingService.CreateTrackingHistoryAsync(new TrackingHistory(registrationId));
+            _logger.LogInformation($"RegistrationId: {registrationId} has been synced with TrackingHistory.");
         }
 
         public async Task<RegistrationResponse> Handle(AddRegistrationCommand request, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
                 _logger.LogInformation(
                     $"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}.");
 
-                await AddTrackingPlaceholder(registrationModel.RegistrationId);
+                await CreateTrackingHistoryPlaceholder(registrationModel.RegistrationId);
                 return new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
             }
 

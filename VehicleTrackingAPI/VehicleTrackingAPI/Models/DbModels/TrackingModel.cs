@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
-using VehicleTrackingAPI.Models.DbModels.SubModels;
+﻿using System;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace VehicleTrackingAPI.Models.DbModels
 {
     public class TrackingModel
     {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id { get; set; }
-        
-        public List<GeoPointModel> GeoPointModels { get; set; }
+        public DateTime TrackingTime { get; set; }
 
-        public TrackingModel(string registrationId)
+        public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }
+
+        public TrackingModel() {}
+
+        public TrackingModel(double latitude, double longitude)
         {
-            Id = registrationId;
-            GeoPointModels = new List<GeoPointModel>();
+            TrackingTime = DateTime.Now;
+            Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(longitude, latitude));
         }
     }
 }

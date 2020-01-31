@@ -25,7 +25,7 @@ namespace VehicleTrackingAPI.Controllers
             return CreatedAtAction("GetRegistrationResponse", new { deviceId = result.VehicleDeviceId }, result);
         }
 
-        [HttpGet("{deviceId}")]
+        [HttpGet]
         public async Task<IActionResult> GetRegistrationResponse(string deviceId)
         {
             var query = new GetRegistrationResponseByDeviceIdQuery(deviceId);

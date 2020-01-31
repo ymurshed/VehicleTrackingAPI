@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VehicleTrackingAPI.Models.ResponseModels
+﻿namespace VehicleTrackingAPI.Models.ResponseModels
 {
     public class RegistrationResponse
     {

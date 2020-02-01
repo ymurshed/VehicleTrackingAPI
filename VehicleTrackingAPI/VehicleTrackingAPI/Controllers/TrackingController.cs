@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VehicleTrackingAPI.Commands;
 using VehicleTrackingAPI.Queries;
@@ -27,6 +29,7 @@ namespace VehicleTrackingAPI.Controllers
 
 
         [HttpGet("CurrentTracking")]
+        [Authorize(Policy = Utility.Constants.AdminUserPolicy)]
         public async Task<IActionResult> GetCurrentTracking(string registrationId)
         {
             var query = new GetCurrentTrackingQuery(registrationId);
@@ -35,6 +38,7 @@ namespace VehicleTrackingAPI.Controllers
         }
 
         [HttpGet("TrackingsInCertainTime")]
+        [Authorize(Policy = Utility.Constants.AdminUserPolicy)]
         public async Task<IActionResult> GetTrackingsInCertainTime(string registrationId, DateTime startTime, DateTime endTime)
         {
             var query = new GetTrackingsInCertainTimeQuery(registrationId, startTime, endTime);

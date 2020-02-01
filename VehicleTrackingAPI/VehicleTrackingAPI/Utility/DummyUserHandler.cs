@@ -11,7 +11,7 @@ namespace VehicleTrackingAPI.Utility
             user.Role = adminUser.UserName.Equals(user.UserName, StringComparison.CurrentCultureIgnoreCase) && 
                         adminUser.Password.Equals(user.Password, StringComparison.CurrentCultureIgnoreCase) 
                         ? adminUser.Role
-                        : Constants.DummyGeneralUserRole;
+                        : Constants.OtherUserRole;
             return user;
         }
     }

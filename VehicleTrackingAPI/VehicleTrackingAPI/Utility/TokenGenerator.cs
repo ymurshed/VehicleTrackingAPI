@@ -43,10 +43,14 @@ namespace VehicleTrackingAPI.Utility
 
         private static IEnumerable<Claim> GetClaims(User user)
         {
+            var roleClaimType = user.Role.Equals(Constants.AdminUserRole, StringComparison.CurrentCultureIgnoreCase)
+                            ? Constants.AdminUserPolicy
+                            : Constants.OtherUserPolicy;
+
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Typ, user.Role),
+                new Claim(roleClaimType, user.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             return claims;

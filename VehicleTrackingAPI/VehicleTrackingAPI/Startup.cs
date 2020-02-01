@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +11,12 @@ using Microsoft.Extensions.Options;
 using VehicleTrackingAPI.Models.AppSettingsModels;
 using VehicleTrackingAPI.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 using VehicleTrackingAPI.Utility;
 
 namespace VehicleTrackingAPI
@@ -49,6 +55,43 @@ namespace VehicleTrackingAPI
                 options.SwaggerDoc(version, new OpenApiInfo {Title = Constants.SwaggerTitle, Version = version});
             });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration[Constants.Issuer],
+                        ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(Configuration[Constants.ExpireTimeInMins])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration[Constants.SecretKey]))
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            var payload = new JObject
+                            {
+                                ["error"] = Constants.Unauthorized + context.Error,
+                                ["error_description"] = Constants.UnauthorizedError + context.ErrorDescription,
+                                ["error_uri"] = context.ErrorUri
+                            };
+
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            return context.Response.WriteAsync(payload.ToString());
+                        }
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Constants.AdminUserPolicy, policy => policy.RequireClaim(Constants.AdminUserPolicy));
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -72,6 +115,7 @@ namespace VehicleTrackingAPI
                 options.DocumentTitle = Constants.SwaggerTitle;
             }); // specifying the Swagger JSON endpoint.
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

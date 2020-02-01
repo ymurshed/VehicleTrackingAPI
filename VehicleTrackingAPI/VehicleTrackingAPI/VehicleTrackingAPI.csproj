@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="Filters\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace VehicleTrackingAPI.Models.DbModels
 {
-    public class RegistrationModel
+    public class RegistrationInfo
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -21,7 +21,7 @@ namespace VehicleTrackingAPI.Models.DbModels
         [BsonDateTimeOptions(DateOnly = true)]
         public DateTime RegistrationDate { get; set; }
 
-        public RegistrationModel()
+        public RegistrationInfo()
         {
             RegistrationId = Guid.NewGuid().ToString("D");
             RegistrationDate = DateTime.Now.Date;

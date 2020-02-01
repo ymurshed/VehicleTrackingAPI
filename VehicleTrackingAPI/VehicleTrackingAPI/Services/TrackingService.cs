@@ -24,25 +24,25 @@ namespace VehicleTrackingAPI.Services
             await _trackingHistory.InsertOneAsync(trackingHistory);
         }
 
-        public async Task AddItemToTrackingHistoryAsync(string registrationId, TrackingModel trackingModel)
+        public async Task AddItemToTrackingHistoryAsync(string registrationId, TrackingInfo trackingInfo)
         {
             var filter = Builders<TrackingHistory>.Filter.Eq("_id", registrationId);
-            var definition = Builders<TrackingHistory>.Update.Push(e => e.TrackingModels, trackingModel);
-            var definition2 = definition.Set(e => e.LatestTrackingModel, trackingModel);
+            var definition = Builders<TrackingHistory>.Update.Push(e => e.TrackingInfoHistory, trackingInfo);
+            var definition2 = definition.Set(e => e.LatestTrackingInfo, trackingInfo);
             await _trackingHistory.UpdateOneAsync(filter, definition2);
         }
 
-        public async Task<TrackingModel> GetTrackingModelAsync(string registrationId)
+        public async Task<TrackingInfo> GetTrackingModelAsync(string registrationId)
         {
             var latestTrackingModel = await _trackingHistory.Find(th => th.Id == registrationId)
-                                        .Project(th => th.LatestTrackingModel).FirstOrDefaultAsync();
+                                        .Project(th => th.LatestTrackingInfo).FirstOrDefaultAsync();
             return latestTrackingModel;
         }
 
-        public async Task<List<TrackingModel>> GetTrackingModelsInCertainTimeAsync(string registrationId, DateTime startTime, DateTime endTime)
+        public async Task<List<TrackingInfo>> GetTrackingModelsInCertainTimeAsync(string registrationId, DateTime startTime, DateTime endTime)
         {
             var trackingHistory = await _trackingHistory.Find(history => history.Id == registrationId).FirstOrDefaultAsync();
-            var trackingModels = trackingHistory.TrackingModels.FindAll(o =>
+            var trackingModels = trackingHistory.TrackingInfoHistory.FindAll(o =>
                                     o.TrackingTime >= startTime.ToUniversalTime() && o.TrackingTime <= endTime.ToUniversalTime());
             return trackingModels;
         }

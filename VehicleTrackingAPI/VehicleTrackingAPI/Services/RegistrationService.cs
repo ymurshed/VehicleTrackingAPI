@@ -7,24 +7,24 @@ namespace VehicleTrackingAPI.Services
 {
     public class RegistrationService : IRegistrationService
     {
-        private readonly IMongoCollection<RegistrationModel> _registrationModel;
+        private readonly IMongoCollection<RegistrationInfo> _registrationInfo;
 
         public RegistrationService(IVehicleTrackerDbConfig config)
         {
             var client = new MongoClient(config.ConnectionString);
             var database = client.GetDatabase(config.DatabaseName);
 
-            _registrationModel = database.GetCollection<RegistrationModel>(config.VehicleRegistrationCollectionName);
+            _registrationInfo = database.GetCollection<RegistrationInfo>(config.VehicleRegistrationCollectionName);
         }
 
-        public async Task<RegistrationModel> Get(string deviceId)
+        public async Task<RegistrationInfo> Get(string deviceId)
         {
-            return await _registrationModel.Find(registration => registration.VehicleDeviceId == deviceId).FirstOrDefaultAsync();
+            return await _registrationInfo.Find(registration => registration.VehicleDeviceId == deviceId).FirstOrDefaultAsync();
         }
             
-        public async Task AddRegistrationAsync(RegistrationModel registrationModel)
+        public async Task AddRegistrationAsync(RegistrationInfo registrationInfo)
         {
-            await _registrationModel.InsertOneAsync(registrationModel);
+            await _registrationInfo.InsertOneAsync(registrationInfo);
         }
     }
 }

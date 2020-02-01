@@ -14,9 +14,9 @@ namespace VehicleTrackingAPI.Commands
         [MaxLength(100)]
         public string VehicleModel { get; set; }
 
-        public RegistrationModel GetRegistrationModel(AddRegistrationCommand command)
+        public RegistrationInfo GetRegistrationModel(AddRegistrationCommand command)
         {
-            var model = new RegistrationModel
+            var model = new RegistrationInfo
             {
                 VehicleModel = command.VehicleModel,
                 VehicleDeviceId = command.VehicleDeviceId

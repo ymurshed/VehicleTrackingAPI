@@ -3,7 +3,7 @@ using VehicleTrackingAPI.Models.ResponseModels;
 
 namespace VehicleTrackingAPI.Queries
 {
-    public class GetLocationNameQuery : IRequest<MapApiResponse>
+    public class GetLocationNameQuery : IRequest<LocationResponse>
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }

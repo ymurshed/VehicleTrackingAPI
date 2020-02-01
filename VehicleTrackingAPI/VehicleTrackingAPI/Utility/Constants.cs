@@ -2,8 +2,10 @@
 {
     public class Constants
     {
+        // Swagger title
         public const string SwaggerTitle = "VehicleTrackingAPI";
 
+        // Jwt & User configs
         public const string SecretKey = "JwtConfig:SecretKey";
         public const string Issuer = "JwtConfig:Issuer";
         public const string ExpireTimeInMins = "JwtConfig:ExpireTimeInMins";
@@ -17,9 +19,9 @@
         public const string Unauthorized = "Unauthorized. ";
         public const string UnauthorizedError = "Unauthorized user. ";
 
-        
+        // Google map api response
         public const string MapError = "error_message";
-        public const string MapFormattedAddress = "formatted_address";
+        public const string MapFormattedAddress = "results[0].formatted_address";
         public const string MapStatus = "status";
         public const string OkStatus = "OK";
 

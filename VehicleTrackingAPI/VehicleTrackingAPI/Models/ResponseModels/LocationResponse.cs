@@ -1,6 +1,6 @@
 ﻿namespace VehicleTrackingAPI.Models.ResponseModels
 {
-    public class MapApiResponse
+    public class LocationResponse
     {
         public string Status { get; set; }
         public string Error { get; set; }

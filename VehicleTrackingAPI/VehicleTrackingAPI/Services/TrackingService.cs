@@ -32,19 +32,19 @@ namespace VehicleTrackingAPI.Services
             await _trackingHistory.UpdateOneAsync(filter, definition2);
         }
 
-        public async Task<TrackingInfo> GetTrackingModelAsync(string registrationId)
+        public async Task<TrackingInfo> GetTrackingInfoAsync(string registrationId)
         {
-            var latestTrackingModel = await _trackingHistory.Find(th => th.Id == registrationId)
+            var trackingInfo = await _trackingHistory.Find(th => th.Id == registrationId)
                                         .Project(th => th.LatestTrackingInfo).FirstOrDefaultAsync();
-            return latestTrackingModel;
+            return trackingInfo;
         }
 
-        public async Task<List<TrackingInfo>> GetTrackingModelsInCertainTimeAsync(string registrationId, DateTime startTime, DateTime endTime)
+        public async Task<List<TrackingInfo>> GetTrackingInfoHistoryAsync(string registrationId, DateTime startTime, DateTime endTime)
         {
             var trackingHistory = await _trackingHistory.Find(history => history.Id == registrationId).FirstOrDefaultAsync();
-            var trackingModels = trackingHistory.TrackingInfoHistory.FindAll(o =>
+            var trackingInfoList = trackingHistory.TrackingInfoHistory.FindAll(o =>
                                     o.TrackingTime >= startTime.ToUniversalTime() && o.TrackingTime <= endTime.ToUniversalTime());
-            return trackingModels;
+            return trackingInfoList;
         }
     }
 }

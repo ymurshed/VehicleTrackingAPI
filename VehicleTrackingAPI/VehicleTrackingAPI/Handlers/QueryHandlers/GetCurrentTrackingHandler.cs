@@ -23,15 +23,15 @@ namespace VehicleTrackingAPI.Handlers.QueryHandlers
 
         public async Task<TrackingResponse> Handle(GetCurrentTrackingQuery request, CancellationToken cancellationToken)
         {
-            var latestTrackingModel = await _trackingService.GetTrackingModelAsync(request.RegistrationId);
+            var trackingInfo = await _trackingService.GetTrackingInfoAsync(request.RegistrationId);
 
-            if (latestTrackingModel == null)
+            if (trackingInfo == null)
             {
                 _logger.LogInformation($"New device. Yet no tracking record added for the RegistrationId: {request.RegistrationId}.");
                 return null;
             }
 
-            var trackingResponse = latestTrackingModel.MapToTrackingResponse();
+            var trackingResponse = trackingInfo.MapToTrackingResponse();
             return trackingResponse;
         }
     }

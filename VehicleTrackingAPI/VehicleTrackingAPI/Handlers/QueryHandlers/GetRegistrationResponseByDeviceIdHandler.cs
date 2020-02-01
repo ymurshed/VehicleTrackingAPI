@@ -21,8 +21,9 @@ namespace VehicleTrackingAPI.Handlers.QueryHandlers
 
         public async Task<RegistrationResponse> Handle(GetRegistrationResponseByDeviceIdQuery request, CancellationToken cancellationToken)
         {
-            var registrationModel = await _registrationService.Get(request.DeviceId);
-            return registrationModel == null ? null : new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
+            var registrationInfo = await _registrationService.Get(request.DeviceId);
+            _logger.LogInformation($"For DeviceId: {request.DeviceId}, RegistrationId: {registrationInfo?.Id}");
+            return registrationInfo == null ? null : new RegistrationResponse(registrationInfo.VehicleDeviceId, registrationInfo.RegistrationId);
         }
     }
 }

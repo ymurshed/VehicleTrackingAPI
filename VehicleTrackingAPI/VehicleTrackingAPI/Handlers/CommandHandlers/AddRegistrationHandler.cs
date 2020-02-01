@@ -38,19 +38,19 @@ namespace VehicleTrackingAPI.Handlers.CommandHandlers
                 return new RegistrationResponse(registeredVehicle.VehicleDeviceId, registeredVehicle.RegistrationId);
             }
 
-            var registrationModel = request.GetRegistrationModel(request);
-            await _registrationService.AddRegistrationAsync(registrationModel);
+            var registrationInfo = request.GetRegistrationInfo(request);
+            await _registrationService.AddRegistrationAsync(registrationInfo);
 
-            if (registrationModel.Id != null)
+            if (registrationInfo.Id != null)
             {
                 _logger.LogInformation(
-                    $"VehicleDeviceId: {registrationModel.VehicleDeviceId} has been registered with RegistrationId: {registrationModel.RegistrationId}.");
+                    $"VehicleDeviceId: {registrationInfo.VehicleDeviceId} has been registered with RegistrationId: {registrationInfo.RegistrationId}.");
 
-                await CreateTrackingHistoryPlaceholder(registrationModel.RegistrationId);
-                return new RegistrationResponse(registrationModel.VehicleDeviceId, registrationModel.RegistrationId);
+                await CreateTrackingHistoryPlaceholder(registrationInfo.RegistrationId);
+                return new RegistrationResponse(registrationInfo.VehicleDeviceId, registrationInfo.RegistrationId);
             }
 
-            _logger.LogError($"For VehicleDeviceId: {registrationModel.VehicleDeviceId} registration has failed!");
+            _logger.LogError($"For VehicleDeviceId: {registrationInfo.VehicleDeviceId} registration has failed!");
             return null;
         }
     }

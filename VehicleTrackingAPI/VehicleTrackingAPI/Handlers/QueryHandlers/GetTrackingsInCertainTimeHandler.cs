@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -21,17 +22,16 @@ namespace VehicleTrackingAPI.Handlers.QueryHandlers
             _trackingService = trackingService;
         }
 
-
         public async Task<List<TrackingResponse>> Handle(GetTrackingsInCertainTimeQuery request, CancellationToken cancellationToken)
         {
-            var trackingModelList = await _trackingService.GetTrackingModelsInCertainTimeAsync(request.RegistrationId, request.StartTime, request.EndTime);
-            if (trackingModelList == null || trackingModelList.Count == 0)
+            var trackingInfoList = await _trackingService.GetTrackingInfoHistoryAsync(request.RegistrationId, request.StartTime, request.EndTime);
+            if (trackingInfoList == null || !trackingInfoList.Any())
             {
                 _logger.LogInformation($"No tracking record found for the RegistrationId: {request.RegistrationId}.");
                 return null;
             }
 
-            var trackingResponseList = trackingModelList.MapToTrackingResponseList();
+            var trackingResponseList = trackingInfoList.MapToTrackingResponseList();
             return trackingResponseList;
         }
     }

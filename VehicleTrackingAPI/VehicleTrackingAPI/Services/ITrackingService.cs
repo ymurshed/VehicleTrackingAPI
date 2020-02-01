@@ -9,7 +9,7 @@ namespace VehicleTrackingAPI.Services
     {
         Task CreateTrackingHistoryAsync(TrackingHistory trackingHistory);
         Task AddItemToTrackingHistoryAsync(string registrationId, TrackingInfo trackingInfo);
-        Task<TrackingInfo> GetTrackingModelAsync(string registrationId);
-        Task<List<TrackingInfo>> GetTrackingModelsInCertainTimeAsync(string registrationId, DateTime startTime, DateTime endTime);
+        Task<TrackingInfo> GetTrackingInfoAsync(string registrationId);
+        Task<List<TrackingInfo>> GetTrackingInfoHistoryAsync(string registrationId, DateTime startTime, DateTime endTime);
     }
 }

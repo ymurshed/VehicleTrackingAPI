@@ -43,14 +43,15 @@ namespace VehicleTrackingAPI
             services.AddSingleton<IGoogleMapApiConfig>(provider => provider.GetRequiredService<IOptions<GoogleMapApiConfig>>().Value);
             services.AddSingleton<IVehicleTrackerDbConfig>(provider => provider.GetRequiredService<IOptions<VehicleTrackerDbConfig>>().Value);
             services.AddSingleton<IDummyAdminUser>(provider => provider.GetRequiredService<IOptions<DummyAdminUser>>().Value);
-            
+
             // Add Db services
             services.AddSingleton<IRegistrationService, RegistrationService>();
             services.AddSingleton<ITrackingService, TrackingService>();
 
+            // Add mediator
             services.AddMediatR(typeof(Startup));
-
-            // Adding Swagger
+            
+            // Add Swagger
             services.AddSwaggerGen(options =>
             {
                 var version = Assembly.GetEntryAssembly()?.GetName().Version.ToString();
@@ -92,14 +93,17 @@ namespace VehicleTrackingAPI
                     };
                 });
 
+            // Add admin user policy
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Constants.AdminUserPolicy, policy => policy.RequireClaim(Constants.AdminUserPolicy));
             });
 
+            // Add MVC
             services.AddMvc(config =>
             {
-                config.Filters.Add(typeof(GlobalExceptionFilter)); 
+                config.Filters.Add(typeof(LoggingFilter));
+                config.Filters.Add(typeof(GlobalExceptionFilter));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -115,7 +119,7 @@ namespace VehicleTrackingAPI
 
             loggerFactory.AddFile("Logs/api-{Date}.txt");
 
-            // Using Swagger to specify the Swagger JSON endpoint
+            // Specify the Swagger JSON endpoint
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {

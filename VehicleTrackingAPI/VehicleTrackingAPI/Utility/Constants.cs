@@ -25,5 +25,7 @@
         public const string MapStatus = "status";
         public const string OkStatus = "OK";
 
+        // Stopwatch key for tracking action execution time
+        public const string StopwatchKey = "StopWatch";
     }
 }

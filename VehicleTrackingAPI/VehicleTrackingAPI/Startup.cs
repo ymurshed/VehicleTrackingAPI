@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
+using VehicleTrackingAPI.Filters;
 using VehicleTrackingAPI.Utility;
 
 namespace VehicleTrackingAPI
@@ -95,7 +96,13 @@ namespace VehicleTrackingAPI
             {
                 options.AddPolicy(Constants.AdminUserPolicy, policy => policy.RequireClaim(Constants.AdminUserPolicy));
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc(config =>
+            {
+                config.Filters.Add(typeof(GlobalExceptionFilter)); 
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,7 +115,7 @@ namespace VehicleTrackingAPI
 
             loggerFactory.AddFile("Logs/api-{Date}.txt");
 
-            // Using Swagger
+            // Using Swagger to specify the Swagger JSON endpoint
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -116,7 +123,7 @@ namespace VehicleTrackingAPI
                 var versionName = $"/swagger/{version}/swagger.json";
                 options.SwaggerEndpoint(versionName, Constants.SwaggerTitle);
                 options.DocumentTitle = Constants.SwaggerTitle;
-            }); // specifying the Swagger JSON endpoint.
+            });
 
             app.UseAuthentication();
             app.UseMvc();

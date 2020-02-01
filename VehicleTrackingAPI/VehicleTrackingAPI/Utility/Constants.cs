@@ -17,5 +17,11 @@
         public const string Unauthorized = "Unauthorized. ";
         public const string UnauthorizedError = "Unauthorized user. ";
 
+        
+        public const string MapError = "error_message";
+        public const string MapFormattedAddress = "formatted_address";
+        public const string MapStatus = "status";
+        public const string OkStatus = "OK";
+
     }
 }

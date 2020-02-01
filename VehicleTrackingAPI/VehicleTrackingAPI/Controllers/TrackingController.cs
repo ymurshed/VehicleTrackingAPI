@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +41,14 @@ namespace VehicleTrackingAPI.Controllers
         public async Task<IActionResult> GetTrackingsInCertainTime(string registrationId, DateTime startTime, DateTime endTime)
         {
             var query = new GetTrackingsInCertainTimeQuery(registrationId, startTime, endTime);
+            var result = await _mediator.Send(query);
+            return result != null ? (IActionResult)Ok(result) : NotFound();
+        }
+
+        [HttpGet("LocationName")]
+        public async Task<IActionResult> GetLocationName(double latitude, double longitude)
+        {
+            var query = new GetLocationNameQuery(latitude, longitude);
             var result = await _mediator.Send(query);
             return result != null ? (IActionResult)Ok(result) : NotFound();
         }

@@ -10,10 +10,8 @@ namespace VehicleTrackingAPI.Models.DbModels
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonElement("Model")]
         public string VehicleModel { get; set; }
 
-        [BsonElement("DeviceId")]
         public string VehicleDeviceId { get; set; }
 
         public string RegistrationId { get; set; }

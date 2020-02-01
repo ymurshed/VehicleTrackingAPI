@@ -18,14 +18,9 @@
 
         public const string Unauthorized = "Unauthorized. ";
         public const string UnauthorizedError = "Unauthorized user. ";
-
-        // Google map api response
-        public const string MapError = "error_message";
-        public const string MapFormattedAddress = "results[0].formatted_address";
-        public const string MapStatus = "status";
-        public const string OkStatus = "OK";
-
-        // Stopwatch key for tracking action execution time
+        
+        // Others
         public const string StopwatchKey = "StopWatch";
+        public const string OkStatus = "OK";
     }
 }

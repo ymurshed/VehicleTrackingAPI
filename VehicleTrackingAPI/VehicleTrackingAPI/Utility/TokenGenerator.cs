@@ -44,8 +44,8 @@ namespace VehicleTrackingAPI.Utility
         private static IEnumerable<Claim> GetClaims(User user)
         {
             var roleClaimType = user.Role.Equals(Constants.AdminUserRole, StringComparison.CurrentCultureIgnoreCase)
-                            ? Constants.AdminUserPolicy
-                            : Constants.OtherUserPolicy;
+                                ? Constants.AdminUserPolicy
+                                : Constants.OtherUserPolicy;
 
             var claims = new[]
             {

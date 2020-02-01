@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using VehicleTrackingAPI.Models.AppSettingsModels;
 using VehicleTrackingAPI.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -117,6 +117,7 @@ namespace VehicleTrackingAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            // Use Serilog extension to write logs in file
             loggerFactory.AddFile("Logs/api-{Date}.txt");
 
             // Specify the Swagger JSON endpoint

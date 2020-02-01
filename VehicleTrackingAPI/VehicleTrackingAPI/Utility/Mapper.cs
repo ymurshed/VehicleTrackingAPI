@@ -17,12 +17,12 @@ namespace VehicleTrackingAPI.Utility
             return trackingResponse;
         }
 
-        public static List<TrackingResponse> MapToTrackingResponseList(this List<TrackingInfo> trackingModelList)
+        public static List<TrackingResponse> MapToTrackingResponseList(this List<TrackingInfo> trackingInfoList)
         {
             var trackingResponseList = new List<TrackingResponse>();
-            foreach (var trackingModel in trackingModelList)
+            foreach (var trackingInfo in trackingInfoList)
             {
-                trackingResponseList.Add(trackingModel.MapToTrackingResponse());
+                trackingResponseList.Add(trackingInfo.MapToTrackingResponse());
             }
             return trackingResponseList;
         }

@@ -48,47 +48,47 @@ MediatR library is used to handle the communication between:
 For the POST API, there are 2 Commands.
 Followings are the API and Command summary:
 
-<u>(1) **/api/Registration**</u> 
-<u>Command used:</u> **AddRegistrationCommand**
-<u>Responsibility:</u> Register a new device. 
+(1) **/api/Registration** 
+Command used: **AddRegistrationCommand**
+Responsibility: Register a new device. 
 In each vehicle there is a device which sends it's position. Assuming this device id is unique per vehicle, by which vehicle registration is performed. 
      
-<u>(2) **/api/Tracking** </u>
-<u>Command used:</u> **AddTrackingCommand**
-<u>Responsibility:</u> Track the device location for the registered device. 
+(2) **/api/Tracking** 
+Command used: **AddTrackingCommand**
+Responsibility: Track the device location for the registered device. 
 RegistrationId is used to track the device location which ensures a device or user cannot add/update the position of another vehicle.
 
 ### GET API
 For the GET API, there are 5 Queries.
 Followings are the API and Query summary:
 
-<u>(1) **/api/Token?userName={0}&password={1}** </u>
-<u>Query used:</u> **GetUserTokenQuery**
-<u>Responsibility:</u> Get the JWT token for admin and other user. 
+(1) **/api/Token?userName={0}&password={1}** 
+Query used: **GetUserTokenQuery**
+Responsibility: Get the JWT token for admin and other user. 
 A dummy admin user credential is placed in the appsettings file.
 With that credential admin user will get his JWT token which need to be passed as a Authorization header to access the following ***GET API# (2 & 3)*** which has only permission given for the admin user.
-> <u>Sample JWT token for admin user need to pass as http header:</u>
+> Sample JWT token for admin user need to pass as http header:
 > Key: Authorization
 > Value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiUmVxdWlyZUFkbWluQWNjZXNzIjoiYWRtaW4tdXNlciIsImp0aSI6IjRhZGJjNDgxLWVjYjUtNGJjNS04ZGFhLTM3NTdhNTcwNjdhMyIsImV4cCI6MTU4MDY0OTM0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIn0.KCq7xnVWNPiE4PZkzY3CSJiRVzb5wqRz_uAVYsmsDBY 
 
-<u>(2) **/api/Tracking/CurrentTracking?registrationId={0}** </u>
-<u>Query used: </u>**GetCurrentTrackingQuery**
-<u>Responsibility:</u> Retrieve the current position of a vehicle by the vehicle RegistrationId. 
+(2) **/api/Tracking/CurrentTracking?registrationId={0}** 
+Query used: **GetCurrentTrackingQuery**
+Responsibility: Retrieve the current position of a vehicle by the vehicle RegistrationId. 
 
-<u>(3) **/api/Tracking/TrackingsInCertainTime?registrationId={0}&startTime={1}&endTime={2}** </u>
-<u>Query used:</u> **GetTrackingsInCertainTimeQuery**
-<u>Responsibility:</u>  Retrieve the positions of a vehicle during a certain time by the vehicle RegistrationId and a given date-time range. 
+(3) **/api/Tracking/TrackingsInCertainTime?registrationId={0}&startTime={1}&endTime={2}** 
+Query used: **GetTrackingsInCertainTimeQuery**
+Responsibility:  Retrieve the positions of a vehicle during a certain time by the vehicle RegistrationId and a given date-time range. 
 >Note that: DateTime need to provide upto second value to get the accurate result.
 
-<u>(4) **/api/Tracking/LocationName?latitude={0}&longitude={1}** </u>
-<u>Query used:</u> **GetLocationNameQuery**
-<u>Responsibility:</u> Retrieve the vehicle location for a given latitude and longitude.
+(4) **/api/Tracking/LocationName?latitude={0}&longitude={1}** 
+Query used: **GetLocationNameQuery**
+Responsibility: Retrieve the vehicle location for a given latitude and longitude.
 This api use google map api to get the location name. 
 > Note that: To use this API, you have to change the text: "YOUR GOOGLE API KEY" by the correct Google API key in the appsettings file.
 
-<u>(5) **api/Registration?deviceId={0}** </u>
-<u>Query used:</u> **GetRegistrationResponseByDeviceIdHandler**
-<u>Responsibility:</u>  Retrieve the RegistrationId by the Vehicle DeviceId.
+(5) **api/Registration?deviceId={0}** 
+Query used: **GetRegistrationResponseByDeviceIdHandler**
+Responsibility:  Retrieve the RegistrationId by the Vehicle DeviceId.
 
 ## Others
 

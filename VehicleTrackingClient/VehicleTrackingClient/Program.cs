@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace VehicleTrackingClient
@@ -7,21 +9,27 @@ namespace VehicleTrackingClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Invoking VehicleTrackingClient.....");
+            Console.WriteLine("Invoking VehicleTrackingClient.....\n");
 
+            var tasks = new List<Task<int>>();
             for (var i = 0; i < Constants.NoOfDevice; i++)
             {
-                var i1 = i;
-                var task = new Task(() =>
-                {
-                    var ob = new Client(i1);
-                    ob.Invoke();
-                });
-                task.Start();
+                tasks.Add(Task<int>.Factory.StartNew(InvokeClient));
             }
 
-            Console.WriteLine("Completed Invoking VehicleTrackingClient.....");
+            var allTask = Task.WhenAll(tasks.ToArray());
+            var sum = allTask.Result.Sum();
+
+            Console.WriteLine(sum == Constants.NoOfDevice
+                                ? "\nCompleted Invoking VehicleTrackingClient....."
+                                : "\nAny of the task did not execute!");
             Console.ReadLine();
+        }
+
+        public static int InvokeClient()
+        {
+            var ob = new Client();
+            return ob.Invoke().Result;
         }
     }
 }

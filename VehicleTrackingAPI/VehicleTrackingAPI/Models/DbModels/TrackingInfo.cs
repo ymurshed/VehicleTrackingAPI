@@ -14,6 +14,7 @@ namespace VehicleTrackingAPI.Models.DbModels
         public TrackingInfo(double latitude, double longitude)
         {
             TrackingTime = DateTime.Now;
+            TrackingTime = TrackingTime.AddMilliseconds(-TrackingTime.Millisecond); // Remove ms
             Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(longitude, latitude));
         }
     }

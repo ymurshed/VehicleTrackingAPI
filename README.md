@@ -13,8 +13,8 @@ The goal is to build a REST API to register vehicles and track Geo position of t
 
 - Start the MongoDB service from Services manager. 
 
-## Knowledge Required to Run & Setup Project
-1. Set the correct Google API Key in the following appsettings section:
+## Knowledge Required to Setup & Run Project
+1. Set the valid Google API Key in the following appsettings section:
      -- **GoogleMapApiConfig.ApiKey**: To execute the location name by the device position.
 
 2.  Set the following JwtConfiguration when applicable:
@@ -84,7 +84,7 @@ Responsibility:  Retrieve the positions of a vehicle during a certain time by th
 Query used: **GetLocationNameQuery**
 Responsibility: Retrieve the vehicle location for a given latitude and longitude.
 This api use google map api to get the location name. 
-> Note that: To use this API, you have to change the text: "YOUR GOOGLE API KEY" by the correct Google API key in the appsettings file.
+> Note that: To use this API, you have to change the text: "YOUR GOOGLE API KEY" by the valid Google API key in the appsettings file.
 
 (5) **api/Registration?deviceId={0}** 
 Query used: **GetRegistrationResponseByDeviceIdHandler**

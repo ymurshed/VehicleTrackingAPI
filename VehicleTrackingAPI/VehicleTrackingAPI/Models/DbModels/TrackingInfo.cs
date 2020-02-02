@@ -3,6 +3,10 @@ using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace VehicleTrackingAPI.Models.DbModels
 {
+    /// <summary>
+    /// If the customer wants to store more properties (like: fuel, speed, etc), 
+    /// then add properties here for extensibility.
+    /// </summary>
     public class TrackingInfo
     {
         public DateTime TrackingTime { get; set; }

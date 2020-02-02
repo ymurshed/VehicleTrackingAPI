@@ -17,6 +17,13 @@ namespace VehicleTrackingAPI.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Provides JWT token based on user role.
+        /// For admin user, use user/pass given in appsettings.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get(string userName, string password)
         {

@@ -17,7 +17,13 @@ namespace VehicleTrackingAPI.Controllers
         {
             _mediator = mediator;
         }
-        
+
+        /// <summary>
+        /// Register a device by Vehicle DeviceId.
+        /// Assuming each Vehicle has it's unique DeviceId. 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] AddRegistrationCommand command)
         {
@@ -25,6 +31,11 @@ namespace VehicleTrackingAPI.Controllers
             return CreatedAtAction("GetRegistrationResponse", new { deviceId = result.VehicleDeviceId }, result);
         }
 
+        /// <summary>
+        /// Get the RegistrationId of a device.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetRegistrationResponse(string deviceId)
         {

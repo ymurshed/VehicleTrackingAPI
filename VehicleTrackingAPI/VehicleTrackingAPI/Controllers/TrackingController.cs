@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VehicleTrackingAPI.Commands;
-using VehicleTrackingAPI.Queries;
+using VehicleTracker.Contracts.Commands;
+using VehicleTracker.Contracts.Queries;
+using VehicleTracker.Business.Utility;
 
-namespace VehicleTrackingAPI.Controllers
+namespace VehicleTracker.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -38,7 +39,7 @@ namespace VehicleTrackingAPI.Controllers
         /// <param name="registrationId"></param>
         /// <returns></returns>
         [HttpGet("CurrentTracking")]
-        [Authorize(Policy = Utility.Constants.AdminUserPolicy)]
+        [Authorize(Policy = Constants.AdminUserPolicy)]
         public async Task<IActionResult> GetCurrentTracking(string registrationId)
         {
             var query = new GetCurrentTrackingQuery(registrationId);
@@ -55,7 +56,7 @@ namespace VehicleTrackingAPI.Controllers
         /// <param name="endTime"></param>
         /// <returns></returns>
         [HttpGet("TrackingsInCertainTime")]
-        [Authorize(Policy = Utility.Constants.AdminUserPolicy)]
+        [Authorize(Policy = Constants.AdminUserPolicy)]
         public async Task<IActionResult> GetTrackingsInCertainTime(string registrationId, DateTime startTime, DateTime endTime)
         {
             var query = new GetTrackingsInCertainTimeQuery(registrationId, startTime, endTime);

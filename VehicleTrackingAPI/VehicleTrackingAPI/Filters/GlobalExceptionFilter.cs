@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace VehicleTrackingAPI.Filters
+namespace VehicleTracker.Api.Filters
 {
     public class GlobalExceptionFilter : ExceptionFilterAttribute
     {

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VehicleTrackingAPI.Commands;
-using VehicleTrackingAPI.Queries;
+using VehicleTracker.Contracts.Commands;
+using VehicleTracker.Contracts.Queries;
 
-namespace VehicleTrackingAPI.Controllers
+namespace VehicleTracker.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

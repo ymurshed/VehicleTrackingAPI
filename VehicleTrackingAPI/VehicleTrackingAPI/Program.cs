@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace VehicleTrackingAPI
+namespace VehicleTracker.Api
 {
     public class Program
     {

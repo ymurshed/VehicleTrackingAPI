@@ -3,24 +3,24 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using VehicleTrackingAPI.Models.AppSettingsModels;
-using VehicleTrackingAPI.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
-using VehicleTrackingAPI.Filters;
-using VehicleTrackingAPI.Utility;
+using VehicleTracker.Api.Filters;
+using VehicleTracker.Business.Services;
+using VehicleTracker.Business.Utility;
+using VehicleTracker.Contracts.Models.AppSettingsModels;
 
-namespace VehicleTrackingAPI
+namespace VehicleTracker.Api
 {
     public class Startup
     {
@@ -50,7 +50,9 @@ namespace VehicleTrackingAPI
 
             // Add mediator
             services.AddMediatR(typeof(Startup));
-            
+            var businessAssembly = AppDomain.CurrentDomain.Load("VehicleTracker.Business");
+            services.AddMediatR(businessAssembly);
+
             // Add Swagger
             services.AddSwaggerGen(options =>
             {

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using VehicleTrackingAPI.Utility;
+using VehicleTracker.Business.Utility;
 
-namespace VehicleTrackingAPI.Filters
+namespace VehicleTracker.Api.Filters
 {
     public class LoggingFilter : ActionFilterAttribute
     {

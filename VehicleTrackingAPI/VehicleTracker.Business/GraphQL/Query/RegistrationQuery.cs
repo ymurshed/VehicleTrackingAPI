@@ -10,6 +10,7 @@ namespace VehicleTracker.Business.GraphQL.Query
         {
             Name = "Query";
 
+
             Field<RegistrationInfoType>("Registration",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>>
@@ -18,6 +19,7 @@ namespace VehicleTracker.Business.GraphQL.Query
                         Description = "Vehicle unique deviceId"
                     }),
                 resolve: ctx => provider.GetRegistration(ctx.GetArgument<string>("deviceId")));
+
 
             Field<ListGraphType<RegistrationInfoType>>("AllRegistration", resolve: ctx => provider.GetAllRegistration());
         }

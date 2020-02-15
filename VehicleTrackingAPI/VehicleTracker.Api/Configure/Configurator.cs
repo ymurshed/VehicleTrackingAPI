@@ -31,15 +31,20 @@ namespace VehicleTracker.Api.Configure
         {
             // Model
             services.AddSingleton<RegistrationInfoType>();
+            services.AddSingleton<TrackingInfoType>();
+            services.AddSingleton<TrackingHistoryType>();
 
             // Data Provider
             services.AddSingleton<RegistrationDataProvider>();
+            services.AddSingleton<TrackingDataProvider>();
 
             // Query
             services.AddSingleton<RegistrationQuery>();
+            services.AddSingleton<TrackingQuery>();
 
             // Schema
             services.AddSingleton<ISchema, RegistrationSchema>();
+            services.AddSingleton<ISchema, TrackingSchema>();
 
             // Activate schema
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));

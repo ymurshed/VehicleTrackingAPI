@@ -8,3 +8,7 @@ VehicleTrackingAPI/VehicleTrackingAPI.Contracts/obj/
 VehicleTrackingAPI/VehicleTrackingAPI.Contracts/bin/
 VehicleTrackingAPI/VehicleTracker.Business/obj/
 VehicleTrackingAPI/VehicleTracker.Business/bin/Debug/netcoreapp2.2/VehicleTracker.Business.deps.json
+VehicleTrackingAPI/VehicleTracker.Api/bin/
+VehicleTrackingAPI/VehicleTracker.Api/obj/
+VehicleTrackingAPI/VehicleTracker.Contracts/obj/
+VehicleTrackingAPI/VehicleTracker.Contracts/bin/

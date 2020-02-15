@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleTracker.Api", "VehicleTrackingAPI\VehicleTracker.Api.csproj", "{B5455FA6-277D-4233-A12A-A3C67E0FA49A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleTracker.Api", "VehicleTracker.Api\VehicleTracker.Api.csproj", "{B5455FA6-277D-4233-A12A-A3C67E0FA49A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleTracker.Contracts", "VehicleTrackingAPI.Contracts\VehicleTracker.Contracts.csproj", "{8C75ADD1-A50A-434B-B6F8-BDA12FF5906D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleTracker.Contracts", "VehicleTracker.Contracts\VehicleTracker.Contracts.csproj", "{8C75ADD1-A50A-434B-B6F8-BDA12FF5906D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleTracker.Business", "VehicleTracker.Business\VehicleTracker.Business.csproj", "{796C6748-F989-4187-A927-6DD58DE55949}"
 EndProject

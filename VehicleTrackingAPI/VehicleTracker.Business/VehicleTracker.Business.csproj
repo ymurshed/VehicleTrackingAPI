@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VehicleTrackingAPI.Contracts\VehicleTracker.Contracts.csproj" />
+    <ProjectReference Include="..\VehicleTracker.Contracts\VehicleTracker.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,42 +14,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
+using VehicleTracker.Api.Configure;
 using VehicleTracker.Api.Filters;
-using VehicleTracker.Business.Services;
 using VehicleTracker.Business.Utility;
-using VehicleTracker.Contracts.Models.AppSettingsModels;
 
 namespace VehicleTracker.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private void RegisterServices(IServiceCollection services)
+        {
+            Configurator.ConfigureAppSettingsServices(services, Configuration);
+            Configurator.ConfigureDbServices(services);
+            Configurator.ConfigureGraphQlServices(services);
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add AppSettings config
-            services.Configure<JwtConfig>(Configuration.GetSection(nameof(JwtConfig)));
-            services.Configure<GoogleMapApiConfig>(Configuration.GetSection(nameof(GoogleMapApiConfig)));
-            services.Configure<VehicleTrackerDbConfig>(Configuration.GetSection(nameof(VehicleTrackerDbConfig)));
-            services.Configure<DummyAdminUser>(Configuration.GetSection(nameof(DummyAdminUser)));
-            services.AddSingleton<IJwtConfig>(provider => provider.GetRequiredService<IOptions<JwtConfig>>().Value);
-            services.AddSingleton<IGoogleMapApiConfig>(provider => provider.GetRequiredService<IOptions<GoogleMapApiConfig>>().Value);
-            services.AddSingleton<IVehicleTrackerDbConfig>(provider => provider.GetRequiredService<IOptions<VehicleTrackerDbConfig>>().Value);
-            services.AddSingleton<IDummyAdminUser>(provider => provider.GetRequiredService<IOptions<DummyAdminUser>>().Value);
+            RegisterServices(services);
 
-            // Add Db services
-            services.AddSingleton<IRegistrationService, RegistrationService>();
-            services.AddSingleton<ITrackingService, TrackingService>();
+            // Add GraphQL
+            services.AddGraphQL(o => { o.ExposeExceptions = false; }).AddGraphTypes();
 
             // Add mediator
             services.AddMediatR(typeof(Startup));
@@ -104,9 +100,6 @@ namespace VehicleTracker.Api
                 options.AddPolicy(Constants.AdminUserPolicy, policy => policy.RequireClaim(Constants.AdminUserPolicy));
             });
 
-            // Add GraphQL
-            //services.AddGraphTypes();
-
             // Add MVC
             services.AddMvc(config =>
             {
@@ -141,10 +134,7 @@ namespace VehicleTracker.Api
             app.UseAuthentication();
 
             app.UseGraphQL<ISchema>();
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
-            {
-                Path = "/ui/playground"
-            });
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions {Path = "/ui/playground" });
             
             app.UseMvc();
         }

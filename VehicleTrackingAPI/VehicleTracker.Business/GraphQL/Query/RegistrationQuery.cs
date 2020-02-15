@@ -18,6 +18,8 @@ namespace VehicleTracker.Business.GraphQL.Query
                         Description = "Vehicle unique deviceId"
                     }),
                 resolve: ctx => provider.GetRegistration(ctx.GetArgument<string>("deviceId")));
+
+            Field<ListGraphType<RegistrationInfoType>>("AllRegistration", resolve: ctx => provider.GetAllRegistration());
         }
     }
 }

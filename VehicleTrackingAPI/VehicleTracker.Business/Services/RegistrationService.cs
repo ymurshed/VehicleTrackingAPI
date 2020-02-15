@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using VehicleTracker.Contracts.Models.AppSettingsModels;
 using VehicleTracker.Contracts.Models.DbModels;
@@ -21,7 +22,12 @@ namespace VehicleTracker.Business.Services
         {
             return await _registrationInfo.Find(registration => registration.VehicleDeviceId == deviceId).FirstOrDefaultAsync();
         }
-            
+
+        public async Task<List<RegistrationInfo>> GetAll()
+        {
+            return await _registrationInfo.Find(_ => true).ToListAsync();
+        }
+
         public async Task AddRegistrationAsync(RegistrationInfo registrationInfo)
         {
             await _registrationInfo.InsertOneAsync(registrationInfo);

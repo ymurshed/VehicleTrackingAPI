@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.2" />
   </ItemGroup>

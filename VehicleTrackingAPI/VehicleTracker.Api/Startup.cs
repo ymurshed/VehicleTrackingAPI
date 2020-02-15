@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphQL.Types;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -101,6 +104,9 @@ namespace VehicleTracker.Api
                 options.AddPolicy(Constants.AdminUserPolicy, policy => policy.RequireClaim(Constants.AdminUserPolicy));
             });
 
+            // Add GraphQL
+            //services.AddGraphTypes();
+
             // Add MVC
             services.AddMvc(config =>
             {
@@ -133,6 +139,13 @@ namespace VehicleTracker.Api
             });
 
             app.UseAuthentication();
+
+            app.UseGraphQL<ISchema>();
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
+            {
+                Path = "/ui/playground"
+            });
+            
             app.UseMvc();
         }
     }

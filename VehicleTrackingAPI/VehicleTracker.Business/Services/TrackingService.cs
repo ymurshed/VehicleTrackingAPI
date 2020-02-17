@@ -46,5 +46,10 @@ namespace VehicleTracker.Business.Services
                                     ti.TrackingTime >= startTime.ToUniversalTime() && ti.TrackingTime <= endTime.ToUniversalTime());
             return trackingInfoList;
         }
+
+        public async Task<TrackingHistory> GetTrackingHistoryDetailsAsync(string registrationId)
+        {
+            return await _trackingHistory.Find(th => th.Id == registrationId).FirstOrDefaultAsync();
+        }
     }
 }

@@ -24,5 +24,10 @@ namespace VehicleTracker.Business.GraphQL.DataProvider
         {
             return Task.Factory.StartNew(() => _trackingService.GetTrackingInfoHistoryAsync(registrationId, startTime, endTime).Result);
         }
+
+        public Task<TrackingHistory> GetTrackingHistoryDetails(string registrationId)
+        {
+            return Task.Factory.StartNew(() => _trackingService.GetTrackingHistoryDetailsAsync(registrationId).Result);
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace VehicleTracker.Api.Configure
             services.AddSingleton<RegistrationInfoType>();
             services.AddSingleton<TrackingInfoType>();
             services.AddSingleton<TrackingHistoryType>();
+            services.AddSingleton<LocationType>();
 
             // Data Provider
             services.AddSingleton<RegistrationDataProvider>();

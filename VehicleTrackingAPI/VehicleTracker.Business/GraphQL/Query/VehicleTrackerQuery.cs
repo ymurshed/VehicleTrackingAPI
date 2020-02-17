@@ -5,13 +5,27 @@ using VehicleTracker.Contracts.GraphQL;
 
 namespace VehicleTracker.Business.GraphQL.Query
 {
-    public class TrackingQuery : ObjectGraphType
+    public class VehicleTrackerQuery : ObjectGraphType
     {
-        public TrackingQuery(TrackingDataProvider provider)
+        public VehicleTrackerQuery(RegistrationDataProvider registrationDataProvider, TrackingDataProvider trackingDataProvider)
         {
             Name = "Query";
 
+            #region Registration
+            Field<RegistrationInfoType>("Registration",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<StringGraphType>>
+                    {
+                        Name = "deviceId",
+                        Description = "Vehicle unique deviceId"
+                    }),
+                resolve: ctx => registrationDataProvider.GetRegistration(ctx.GetArgument<string>("deviceId")));
 
+
+            Field<ListGraphType<RegistrationInfoType>>("AllRegistration", resolve: ctx => registrationDataProvider.GetAllRegistration());
+            #endregion
+
+            #region Tracking
             Field<TrackingInfoType>("CurrentTracking",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>>
@@ -19,7 +33,7 @@ namespace VehicleTracker.Business.GraphQL.Query
                         Name = "registrationId",
                         Description = "Vehicle registrationId"
                     }),
-                resolve: ctx => provider.GetTrackingInfo(ctx.GetArgument<string>("registrationId")));
+                resolve: ctx => trackingDataProvider.GetTrackingInfo(ctx.GetArgument<string>("registrationId")));
 
 
             Field<ListGraphType<TrackingInfoType>>("TrackingHistory",
@@ -39,9 +53,10 @@ namespace VehicleTracker.Business.GraphQL.Query
                         Name = "endTime",
                         Description = "End time"
                     }),
-                resolve: ctx => provider.GetTrackingInfoHistory(ctx.GetArgument<string>("registrationId"), 
-                                ctx.GetArgument<DateTime>("startTime"), 
-                                ctx.GetArgument<DateTime>("endTime")));
+                resolve: ctx => trackingDataProvider.GetTrackingInfoHistory(ctx.GetArgument<string>("registrationId"),
+                    ctx.GetArgument<DateTime>("startTime"),
+                    ctx.GetArgument<DateTime>("endTime")));
+
 
             Field<TrackingHistoryType>("TrackingHistoryDetails",
                 arguments: new QueryArguments(
@@ -50,7 +65,8 @@ namespace VehicleTracker.Business.GraphQL.Query
                         Name = "registrationId",
                         Description = "Vehicle registrationId"
                     }),
-                resolve: ctx => provider.GetTrackingHistoryDetails(ctx.GetArgument<string>("registrationId")));
+                resolve: ctx => trackingDataProvider.GetTrackingHistoryDetails(ctx.GetArgument<string>("registrationId")));
+            #endregion
         }
     }
 }

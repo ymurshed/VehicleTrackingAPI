@@ -90,6 +90,14 @@ This api use google map api to get the location name.
 Query used: **GetRegistrationResponseByDeviceIdHandler**
 Responsibility:  Retrieve the RegistrationId by the Vehicle DeviceId.
 
+## GraphQL Endpoint
+- query{registration(deviceId:"vdi-624"){id,vehicleDeviceId,vehicleModel,registrationId,registrationDate}}
+- query{allRegistration{id,vehicleDeviceId,vehicleModel,registrationId,registrationDate}}
+
+- query{currentTracking(registrationId:"be879012-c242-49d2-9114-af754345fb5d"){location,trackingTime}}
+- query{trackingHistory(registrationId:"be879012-c242-49d2-9114-af754345fb5d",startTime:"2020-02-15T10:43:39.000",endTime:"2020-02-15T10:43:44.000"){location,trackingTime}}
+- query{trackingHistoryDetails(registrationId:"be879012-c242-49d2-9114-af754345fb5d"){id,vehicleDeviceId,latestTrackingInfo{location,trackingTime},trackingInfoHistory{location,trackingTime}}}
+
 ## Others
 
 - Design: Used CQRS pattern.

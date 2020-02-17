@@ -29,7 +29,7 @@ namespace VehicleTracker.Api.Configure
 
         public static void ConfigureGraphQlServices(IServiceCollection services)
         {
-            // Model
+            // GraphQL Model
             services.AddSingleton<RegistrationInfoType>();
             services.AddSingleton<TrackingInfoType>();
             services.AddSingleton<TrackingHistoryType>();
@@ -40,12 +40,10 @@ namespace VehicleTracker.Api.Configure
             services.AddSingleton<TrackingDataProvider>();
 
             // Query
-            services.AddSingleton<RegistrationQuery>();
-            services.AddSingleton<TrackingQuery>();
+            services.AddSingleton<VehicleTrackerQuery>();
 
             // Schema
-            services.AddSingleton<ISchema, RegistrationSchema>();
-            services.AddSingleton<ISchema, TrackingSchema>();
+            services.AddSingleton<ISchema, VehicleTrackerSchema>();
 
             // Activate schema
             services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));

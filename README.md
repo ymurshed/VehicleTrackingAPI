@@ -1,5 +1,5 @@
 
-# VehicleTrackingAPI - (REST API)
+# VehicleTrackingAPI - (REST API) 
 
 This is a very basic ASP.NET Core 2.2 REST API project. 
 The goal is to build a REST API to register vehicles and track Geo position of the registered vehicles. 
